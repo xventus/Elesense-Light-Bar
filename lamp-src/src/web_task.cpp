@@ -25,7 +25,7 @@ WebTask::WebTask()
 {
 	_queue = xQueueCreate(2, sizeof(int));
 	_queueAP = xQueueCreate(2, sizeof(APInfo));
-	_queueLcs = xQueueCreate(2, sizeof(LCSInfo));
+	_queueLcs = xQueueCreate(1, sizeof(LCSInfo));
 }
 
 WebTask::~WebTask()
@@ -41,7 +41,11 @@ WebTask::~WebTask()
 
 void WebTask::loop()
 {
-	APInfo apinf{0};
+
+	APInfo apinf = {
+		.ap_name = "",
+		.rssi = 0
+	};
 	HttpServer server;
 	std::string apinfo;
 
@@ -72,6 +76,7 @@ void WebTask::loop()
 		if (resap == pdTRUE) 
 		{
            //todo...
+		   printf("_queueLcs  %d \n", lcs.command);
 		}
 
 		int receivedMode;
@@ -93,42 +98,6 @@ void WebTask::loop()
 				
     				auto cnt =  ap1cntb.readContnet();
  					httpd_resp_send(req, cnt.c_str(), cnt.length());
-                    return ESP_OK; });
-
-				// get info - slieders & status - repeated query about slider position
-				server.registerUriHandler("/values", HTTP_GET, [&apinfo, &lcs](httpd_req_t *req) -> esp_err_t
-					 {
-
-						cJSON *root = cJSON_CreateObject();
-						if (root) 
-						{
-							if (lcs.command == static_cast<uint8_t>(lamp::Packet::Command::Unknown)) {
-								// unknown values
-								cJSON_AddNumberToObject(root, "brightness", 0); 
-								cJSON_AddNumberToObject(root, "hue", 0);
-								cJSON_AddStringToObject(root, "id", "???");  
-							} else if (lcs.command == static_cast<uint8_t>(lamp::Packet::Command::Startup)) {
-								// TODO: known ID but unknown intensity & hue
-								cJSON_AddNumberToObject(root, "brightness", 0); 
-								cJSON_AddNumberToObject(root, "hue", 0);  
-								cJSON_AddStringToObject(root, "id", lcs.id);   
-							} else {
-								cJSON_AddNumberToObject(root, "brightness", lcs.intensity); 
-								cJSON_AddNumberToObject(root, "hue", lcs.hue);  
-								cJSON_AddStringToObject(root, "id", lcs.id);  
-							}
-							
-							httpd_resp_set_type(req, "application/json");
-
-							char *json_string = cJSON_Print(root);
-							if (json_string != nullptr) {
-							httpd_resp_send(req, json_string, strlen(json_string));
-							}
-
-							cJSON_Delete(root);
-							if (json_string) free(json_string);
-						}
-								
                     return ESP_OK; });
 
 				server.registerUriHandler("/style.css", HTTP_GET, [](httpd_req_t *req) -> esp_err_t
@@ -164,6 +133,7 @@ void WebTask::loop()
 						cJSON *slider = cJSON_GetObjectItem(json, "slider");
 						cJSON *valueItem = cJSON_GetObjectItem(json, "value");
 						if (slider && valueItem && cJSON_IsString(slider)&& cJSON_IsString(valueItem)) {
+							
 							uint8_t value = (uint8_t)atoi(valueItem->valuestring);
 
 							if (strcmp(slider->valuestring, "brightness") == 0 && cJSON_IsString(valueItem)) {	
@@ -182,6 +152,43 @@ void WebTask::loop()
 
 					return ESP_OK; 
 				});
+
+				// get info - slieders & status - repeated query about slider position
+				server.registerUriHandler("/values", HTTP_GET, [&apinfo, &lcs](httpd_req_t *req) -> esp_err_t
+					 {
+
+						cJSON *root = cJSON_CreateObject();
+						if (root) 
+						{
+							if (lcs.command == static_cast<uint8_t>(lamp::Packet::Command::Unknown)) {
+								// unknown values
+								cJSON_AddNumberToObject(root, "brightness", 0); 
+								cJSON_AddNumberToObject(root, "hue", 0);
+								cJSON_AddStringToObject(root, "id", "???");  
+							} else if (lcs.command == static_cast<uint8_t>(lamp::Packet::Command::Startup)) {
+								// TODO: known ID but unknown intensity & hue
+								cJSON_AddNumberToObject(root, "brightness",lcs.intensity); 
+								cJSON_AddNumberToObject(root, "hue", lcs.hue);  
+								cJSON_AddStringToObject(root, "id", lcs.id);  
+								//lcs.command =  static_cast<uint8_t>(lamp::Packet::Command::On);
+							} else {
+								cJSON_AddNumberToObject(root, "brightness", lcs.intensity); 
+								cJSON_AddNumberToObject(root, "hue", lcs.hue);  
+								cJSON_AddStringToObject(root, "id", lcs.id);  
+							}
+							
+							httpd_resp_set_type(req, "application/json");
+
+							char *json_string = cJSON_Print(root);
+							if (json_string != nullptr) {
+							httpd_resp_send(req, json_string, strlen(json_string));
+							}
+
+							cJSON_Delete(root);
+							if (json_string) free(json_string);
+						}
+								
+                    return ESP_OK; });
 
 				// commands - send to LCS
 				server.registerUriHandler("/command", HTTP_POST, [&lcs](httpd_req_t *req) -> esp_err_t {

@@ -35,7 +35,11 @@ void WifiTask::loop()
 
 	WiFiAccessPoint wftt;
 	WiFiClient wfcli;
-	esp_netif_ip_info_t staticip{0};
+	esp_netif_ip_info_t staticip = {
+			.ip = { .addr = 0 },
+			.netmask = { .addr = 0 },
+			.gw = { .addr = 0 }
+		};
 	bool processit = true;
 	int receivedMode = static_cast<int>(Mode::Stop);
 

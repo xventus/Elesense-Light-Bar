@@ -36,6 +36,7 @@ void Application::checkRenewAP()
     Button b1(A_BUTTON);
     Button b2(B_BUTTON);
     KeyVal& kv = KeyVal::getInstance();
+   
     if (b1.isPressed() && b2.isPressed()) {
 		kv.writeString(literals::kv_ssid, "");
     }
@@ -84,10 +85,10 @@ void Application::init()
     checkRenewAP();
 
     // remove - ESPWROVERKIT
-    gpio_set_direction(GPIO_NUM_0, GPIO_MODE_OUTPUT);
-    gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
-    gpio_set_direction(GPIO_NUM_4, GPIO_MODE_OUTPUT);
-  
+    /*gpio_set_direction(GPIO_NUM_0, GPIO_MODE_OUTPUT);
+      gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
+      gpio_set_direction(GPIO_NUM_4, GPIO_MODE_OUTPUT);
+    */
 }
 
 void Application::run()

@@ -17,8 +17,7 @@
 
 
 // LEDs
-#define  HEART_BEAT_LED  GPIO_NUM_0
-#define  DATA_LED        GPIO_NUM_2
+#define  HEART_BEAT_LED  GPIO_NUM_5
 
 // Buttons
 #define  FLASH_BUTTON    GPIO_NUM_0

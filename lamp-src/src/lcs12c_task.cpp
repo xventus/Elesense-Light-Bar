@@ -65,7 +65,6 @@ void LC12STask::loop(){
 
 	while (true) {
 
-	    vTaskDelay(1 / portTICK_PERIOD_MS); 
 		if (uart_get_buffered_data_len(LCS_UART, (size_t*)&length) == ESP_OK) {
 			// TODO !!!
 			readcnt = uart_read_bytes(LCS_UART, data, length, 20 / portTICK_PERIOD_MS);			
@@ -95,7 +94,6 @@ void LC12STask::loop(){
 						{   
 						    // update web interface
 						    Application::getInstance()->getWebTask()->lcsUpdate(lcs);
-
 							// sync hue & intensity
 							mylamp.setIntensity(packet.getIntensity());
 							mylamp.setYellow2White(packet.getYellow2White());
@@ -127,7 +125,15 @@ void LC12STask::loop(){
 					mylamp.setYellow2White(req.hue);
 				}
 
-				if (req.intensity != 255) mylamp.setIntensity(req.intensity);
+				if (req.intensity != 255) {
+					 mylamp.setIntensity(req.intensity);
+				}
+
+				
+				if (mylamp.getCommnad() !=  lamp::Packet::Command::On) {
+					// switch on if in OFF mode or automatic
+					mylamp.setCommand(lamp::Packet::Command::On);
+				}
 			} 
 		
 			if (!learn) {
