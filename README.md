@@ -12,7 +12,14 @@ Still in development, custom PCB is being created, will be published in time.
 ---
 | ESP32 GPIO  | Note         |
 |------------|---------------|
-
+|   GPIO_NUM_25 | LSC12S TX |
+|   GPIO_NUM_26 | LSC12S RX |
+|   GPIO_NUM_19 | LSC12S SET |
+|   GPIO_NUM_18 | LSC12S CS |
+|   GPIO_NUM_2  | A BUTTON |
+|   GPIO_NUM_4  | B BUTTON |
+|   GPIO_NUM_0  | FALSH BUTTON |
+|   GPIO_NUM_5  | HEART BEAT LED |
 
 ## Protocol
 
