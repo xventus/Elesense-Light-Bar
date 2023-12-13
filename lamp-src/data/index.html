@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LAMP</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="topnav">
+    <h1>LAMP Control</h1>
+  </div>
+  <div class="content">
+    <div class="card-grid">
+      <div class="card">
+        <div class="content">
+            <div>
+                <label for="brightness">Brightness:</label>
+                <input type="range" id="brightness" name="brightness" min="00" max="23"  class="slider-full-width">
+            </div>
+            <div>
+            </div>
+            <div>
+                <label for="hue">Hue:</label>
+                <input type="range" id="hue" name="hue" min="0" max="23"  class="slider-full-width">
+            </div>
+            <div>
+                <button class="button-on" id="turnOn" onclick="sendCommand('ON')">ON</button>
+                <button class="button-off" id="turnOff" onclick="sendCommand('OFF')">OFF</button>
+            </div>
+        </div>
+    
+        <script>
+            
+            document.getElementById('brightness').addEventListener('input', function(e) {
+            const brightnessValue = e.target.value;
+            sendSliderValue('brightness', brightnessValue); 
+            });
+
+            document.getElementById('hue').addEventListener('input', function(e) {
+                const hueValue = e.target.value;
+                sendSliderValue('hue', hueValue); 
+            });
+
+           
+         
+            function sendCommand(command) {
+              
+                const url = '/command'; 
+                const brightnessValue = document.getElementById('brightness').value;
+                const hueValue = document.getElementById('hue').value;
+    
+                const data = {
+                    command: command,
+                    brightness: brightnessValue,
+                    hue: hueValue
+                };
+
+                const options = {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data), 
+                };
+
+               
+                fetch(url, options)
+                    .then((response) => {
+                        if (!response.ok) {
+                            
+                            throw new Error('Network response was not ok');
+                        }
+                        
+                    })
+                    .catch((error) => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+
+            function sendSliderValue(sliderName, sliderValue) {
+                const url = '/slider'; 
+                
+                const data = {
+                    slider: sliderName,
+                    value: sliderValue
+                };
+
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                };
+
+                fetch(url, options)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+
+            function fetchSliderStatus() {
+                fetch('/values')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('brightness').value = data.brightness;
+                        document.getElementById('hue').value = data.hue;
+                        document.getElementById('lamp-id').textContent = data.id;
+                    })
+                    .catch(error => console.error('There was a problem with the fetch operation:', error));
+            }
+
+      
+         setInterval(fetchSliderStatus, 1000);
+
+           
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2023 fotoventus.cz</p>
+  </footer>
+  <button class="small-button" id="bottom-button"  onclick="sendCommand('RECONFIG')" >learn</button>
+
+  <div class="lamp-id-container">
+    <span class="lamp-id-label">ID LAMP: </span>
+    <span id="lamp-id"></span> 
+</div>
+</body>
+
+</body>
+</html>
+

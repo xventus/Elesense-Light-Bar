@@ -1,0 +1,184 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+  color: #034078;
+  margin: 0;
+  text-align: left;
+}
+
+.topnav {
+  background-color: #0A1128;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.content {
+  padding: 20px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: #f0f0f0;
+  box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #034078;
+}
+
+input[type=text], input[type=number], select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type=submit] {
+  width: auto;
+  padding: 10px 20px;
+  background-color: #034078;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #1282A2;
+}
+
+input[type=text], input[type=number], select {
+  width: calc(100% - 40px); 
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+footer {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #0A1128;
+  color: white;
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.wifi-info {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.wifi-info h2 {
+  color: #034078;
+}
+
+#wifi-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#wifi-list li {
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Styl pro dialogové okno */
+.dialog-box {
+  background-color: #f0f0f0;
+  box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 0 auto;
+  max-width: 400px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Styl pro nadpis */
+.dialog-title {
+  font-size: 1.2rem;
+  color: #034078;
+  margin-bottom: 10px;
+}
+
+/* Styl pro textovou zprávu */
+.dialog-message {
+  font-size: 1rem;
+  color: #034078;
+  margin-bottom: 20px;
+}
+
+/* Styl pro tlačítko */
+.dialog-button {
+  background-color: #034078;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+.dialog-button:hover {
+  background-color: #1282A2;
+}
+
+.slider-full-width {
+  width: 100%;
+}
+
+.button-on,
+.button-off {
+  width: 100%; 
+  padding: 10px 20px;
+  background-color: #034078;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 10px; 
+  height: 40px;
+}
+
+.small-button {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #034078;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.small-button:hover {
+  background-color: #1282A2;
+}
+
+.lamp-id-container {
+  text-align: center;
+  margin-top: 20px; 
+}
+
+.lamp-id-label {
+  margin-right: 10px; 
+}

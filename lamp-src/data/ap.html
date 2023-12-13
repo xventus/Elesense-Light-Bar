@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LAMP</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="topnav">
+    <h1>LAMP WIFI Configuration</h1>
+  </div>
+  <div class="content">
+    <div class="card-grid">
+      <div class="card">
+        <form action="/" method="POST">
+          <p>
+           
+            <label for="ssid">SSID</label>
+            <input type="text" id ="ssid" name="ssid"><br>
+          
+            <label for="pass">Password</label>
+            <input type="text" id ="pass" name="pass"><br>
+            
+            <label for="ip">Device IP (EMPTY for DHCP)</label>
+            <input type="text" id ="ip" name="ip"><br>
+            
+            <label for="mask">Netmask</label>
+            <input type="text" id ="mask" name="mask"><br>
+          
+            <label for="gw">Gateway</label>
+            <input type="text" id ="gw" name="gw"><br>
+
+            <input type ="submit" value ="Submit"> 
+            
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="wifi-info">
+    <h2>Discovering nearby Wifi sites</h2>
+    <ul id="wifi-list">
+      <li>WiFi Síť 1</li>
+      <li>WiFi Síť 2</li>
+      <li>WiFi Síť 3</li>
+    </ul>
+  </div>
+
+  <footer>
+    <p>&copy; 2023 fotoventus.cz</p>
+  </footer>
+
+</body>
+</html>
+

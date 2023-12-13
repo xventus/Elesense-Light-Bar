@@ -1,0 +1,24 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /usr/local/bin/gcc-12 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+-macosx_version_min has been renamed to -macos_version_min
+ld: library 'System' not found
+collect2: error: ld returned 1 exit status
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: /usr/local/bin/g++-12 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+-macosx_version_min has been renamed to -macos_version_min
+ld: library 'System' not found
+collect2: error: ld returned 1 exit status
+
+
