@@ -45,4 +45,11 @@ example:
 | 12         | END mark   (always 0x00)                                                                       |
 
 
+## Web interface
+
+<img src="imgs/ap.png" alt="popis" width="400">
+<img src="imgs/co.png" alt="popis" width="400">
+
+
+
 
