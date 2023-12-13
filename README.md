@@ -18,7 +18,7 @@ Still in development, custom PCB is being created, will be published in time.
 |   GPIO_NUM_18 | LSC12S CS |
 |   GPIO_NUM_2  | A BUTTON |
 |   GPIO_NUM_4  | B BUTTON |
-|   GPIO_NUM_0  | FALSH BUTTON |
+|   GPIO_NUM_0  | FLASH BUTTON |
 |   GPIO_NUM_5  | HEART BEAT LED |
 
 ## Protocol
