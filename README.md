@@ -51,6 +51,22 @@ example:
 | 12         | END mark   (always 0x00)                                                                       |
 
 
+## HTTP command
+
+LAMP OFF command
+
+`curl -X POST -H "Content-Type: application/json" -d '{"command": "OFF"}' http://xxx.xxx.xxx.xxx/command`
+
+LAMP ON with intensity and hue command
+
+`curl -X POST -H "Content-Type: application/json" -d '{"command": "ON","brightness":"17","hue":"12"}' http://xxx.xxx.xxx.xxx/command`
+
+LAMP get ID & values
+
+`curl http://192.168.2.222/values`
+
+
+
 ## Web interface
 
 <img src="imgs/ap.png" alt="AP" width="400">
