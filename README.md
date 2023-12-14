@@ -2,6 +2,8 @@
 
 Elesense Light Bar is a monitor lamp from [kickstarter](https://www.kickstarter.com/projects/elesense/elesense-computer-monitor-light-bar). Because of the need to control it using a web interface or script and also out of curiosity how it works, this project was created. Take a screwdriver and an anlyzer and see how it works.....  
 
+<img src="imgs/controller.jpg" alt="Communication sniffing" width="300">
+
 ## Hardware
 For communication is to use LC12S module communicating on 2.4GHz. It is used as a transparetic serial line at 9600bps. 
 For the control of the LAMP project the ESP32 module is used. The development was based on ESP-WROVER-KIT. 
@@ -22,6 +24,10 @@ Still in development, custom PCB is being created, will be published in time.
 |   GPIO_NUM_5  | HEART BEAT LED |
 
 ## Protocol
+
+
+<img src="imgs/sniff.png" alt="sniff" width="800">
+
 
 example: 
 
@@ -47,8 +53,8 @@ example:
 
 ## Web interface
 
-<img src="imgs/ap.png" alt="popis" width="400">
-<img src="imgs/co.png" alt="popis" width="400">
+<img src="imgs/ap.png" alt="AP" width="400">
+<img src="imgs/co.png" alt="Control" width="400">
 
 
 
