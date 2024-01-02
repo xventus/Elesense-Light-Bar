@@ -8,6 +8,9 @@ Elesense Light Bar is a monitor lamp from [kickstarter](https://www.kickstarter.
 For communication is to use LC12S module communicating on 2.4GHz. It is used as a transparetic serial line at 9600bps. 
 For the control of the LAMP project the ESP32 module is used. The development was based on ESP-WROVER-KIT. 
 
+
+[Wiring the lamp controller based on ESP32](https://github.com/xventus/Elesense-Light-Bar/blob/master/hw/schema.pdf) 
+
 Still in development, custom PCB is being created, will be published in time. 
 
 
