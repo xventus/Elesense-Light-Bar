@@ -46,31 +46,51 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.5
+          "min_clearance": 0.09999999999999999
         }
       },
-      "diff_pair_dimensions": [],
-      "drc_exclusions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
+      "drc_exclusions": [
+        "lib_footprint_mismatch|153773375|99970000|c1ed172f-f9d9-4c79-a21e-cb0cdeedbc93|00000000-0000-0000-0000-000000000000",
+        "starved_thermal|123540000|90540000|e9a38db3-82c7-433c-bd3b-2ab85c0ee8b4|38b57cb6-8de3-464c-b757-3aaf7e3a14e5|F.Cu",
+        "starved_thermal|127750000|87500000|e9a38db3-82c7-433c-bd3b-2ab85c0ee8b4|339b8eb3-8472-4ec6-8b6e-b1dabc72cb31|F.Cu",
+        "starved_thermal|131600000|85062500|e9a38db3-82c7-433c-bd3b-2ab85c0ee8b4|25e92971-04cb-4ce7-9fbd-a785c3efc404|B.Cu",
+        "starved_thermal|137200000|84462500|e9a38db3-82c7-433c-bd3b-2ab85c0ee8b4|4193d2fa-d28c-4dad-8f85-63e9523514b8|B.Cu",
+        "starved_thermal|137250000|77045000|e9a38db3-82c7-433c-bd3b-2ab85c0ee8b4|06e29961-911f-4acf-b10b-7e3ec7e1dd0c|B.Cu",
+        "starved_thermal|137250000|77045000|e9a38db3-82c7-433c-bd3b-2ab85c0ee8b4|bcd5f037-9608-44ba-8f44-d9756d4d5ee9|B.Cu"
+      ],
       "meta": {
         "version": 2
       },
       "rule_severities": {
         "annular_width": "error",
         "clearance": "error",
+        "connection_width": "warning",
         "copper_edge_clearance": "error",
+        "copper_sliver": "warning",
         "courtyards_overlap": "error",
         "diff_pair_gap_out_of_range": "error",
         "diff_pair_uncoupled_length_too_long": "error",
         "drill_out_of_range": "error",
         "duplicate_footprints": "warning",
         "extra_footprint": "warning",
+        "footprint": "error",
         "footprint_type_mismatch": "ignore",
         "hole_clearance": "error",
         "hole_near_hole": "error",
         "invalid_outline": "error",
+        "isolated_copper": "warning",
         "item_on_disabled_layer": "error",
         "items_not_allowed": "error",
         "length_out_of_range": "error",
+        "lib_footprint_issues": "warning",
+        "lib_footprint_mismatch": "warning",
         "malformed_courtyard": "error",
         "microvia_drill_out_of_range": "error",
         "missing_courtyard": "ignore",
@@ -80,9 +100,14 @@
         "padstack": "warning",
         "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
+        "silk_edge_clearance": "ignore",
         "silk_over_copper": "warning",
         "silk_overlap": "warning",
         "skew_out_of_range": "error",
+        "solder_mask_bridge": "error",
+        "starved_thermal": "error",
+        "text_height": "warning",
+        "text_thickness": "warning",
         "through_hole_pad_without_hole": "error",
         "too_many_vias": "error",
         "track_dangling": "warning",
@@ -91,7 +116,6 @@
         "unconnected_items": "error",
         "unresolved_variable": "error",
         "via_dangling": "warning",
-        "zone_has_empty_net": "error",
         "zones_intersect": "error"
       },
       "rules": {
@@ -158,8 +182,18 @@
           "td_width_to_size_filter_ratio": 0.9
         }
       ],
-      "track_widths": [],
-      "via_dimensions": [],
+      "track_widths": [
+        0.0,
+        0.21,
+        0.42,
+        0.6
+      ],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false,
       "zones_use_no_outline": true
     },
@@ -422,7 +456,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "3D/esp-lamp.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
