@@ -7,7 +7,7 @@ Elesense Light Bar is a monitor lamp from [kickstarter](https://www.kickstarter.
         <td><img src="imgs/controller.jpg" alt="Communication sniffing" width="300"></td>
         <td><img src="imgs/lamp-pcb.jpg" alt="PCB" width="300"></td>
         <td><img src="hw/3D/TOP.jpg" alt="new hw" width="300"></td>
-        <td><img src="hw/3D/devel.png" alt="new hw" width="300"></td>
+        <td><img src="imgs/devel.png" alt="new hw" width="300"></td>
     </tr>
 </table>
 
