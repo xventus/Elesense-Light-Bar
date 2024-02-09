@@ -19,6 +19,8 @@ For the control of the LAMP project the ESP32 module is used. The development wa
 
 The first version of the board is made. Gerber is in the hw directory. 
 
+Note:  R9 and R10 can be omitted from the circuit. Pull up resistors are then set as internal pull up. If external resistor R10 is used on GPIO2, it is necessary to ground it during upload. Press the push button or insert the shorting jumper on the push button.
+
 Still in development, custom PCB is being created, will be published in time. 
 
 
@@ -77,12 +79,13 @@ LAMP get ID & values
 `curl http://192.168.2.222/values`
 
 
-
 ## Web interface
 
 <img src="imgs/ap.png" alt="AP" width="400">
 <img src="imgs/co.png" alt="Control" width="400">
 
+## TODO
 
+It is necessary to complete the control using HW buttons. 
 
 
