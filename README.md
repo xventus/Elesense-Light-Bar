@@ -7,6 +7,7 @@ Elesense Light Bar is a monitor lamp from [kickstarter](https://www.kickstarter.
         <td><img src="imgs/controller.jpg" alt="Communication sniffing" width="300"></td>
         <td><img src="imgs/lamp-pcb.jpg" alt="PCB" width="300"></td>
         <td><img src="hw/3D/TOP.jpg" alt="new hw" width="300"></td>
+        <td><img src="hw/3D/devel.png" alt="new hw" width="300"></td>
     </tr>
 </table>
 
@@ -19,7 +20,12 @@ For the control of the LAMP project the ESP32 module is used. The development wa
 
 The first version of the board is made. Gerber is in the hw directory. 
 
-Note:  R9 and R10 can be omitted from the circuit. Pull up resistors are then set as internal pull up. If external resistor R10 is used on GPIO2, it is necessary to ground it during upload. Press the push button or insert the shorting jumper on the push button.
+Note!!:  R9 and R10 can be omitted from the circuit. Pull up resistors are then set as internal pull up. If external resistor R10 is used on GPIO2, it is necessary to ground it during upload. Press the push button or insert the shorting jumper on the push button.
+
+
+
+[Interactive BOM](https://fotoventus.cz/lamp/ibom.html)
+
 
 Still in development, custom PCB is being created, will be published in time. 
 
