@@ -95,6 +95,35 @@ LAMP get ID & values
 | B     | Decreasing the brightness intensity|
 | A + B + reset | New initialization, creates a LAM AP and allows you to set up a new WiFi connection | 
 
+## Programming and configuration
+
+1. Connect ESP-LAM PCB via 3V3 USB-serial converter to J4 connector
+2. Connect power via USB-C connector or via J1
+3. Run VisualCode and upload the project
+4. In VC Platformio run Build Sytem File Image
+5. Press and hold the BTN-XBOOT button and press the RST button, then release RST and BTN-XBOOT 
+6. In VC Platformio run Upload Sytem File Image
+7. Press and hold the BTN-XBOOT button and press the RST button, then release RST and BTN-XBOOT
+8. In VC Platformio, start the Upload Program to ESP
+9. Press the RST button, then the LED should start flashing 
+10. On your computer, search for the AP named LAMP AP and connect
+11. In your web browser enter the address http://192.168.4.1
+12. Configure the wifi network and select submit
+13. After reboot, ESP-LAMP will connect to your wifi network and you can connect from the browser to the IP address received from DHCP or specified in the configuration and control the lamp.  
+
+## LED STATE
+
+---
+| LED     | Note |
+|------------|------------------------------------------------------------------------|
+| .. .. .. |  LAMP runs in AP mode and waits for configuration |
+| . -  . - |  The LAMP is waiting to be paired. Please use the original control for the lamp. ESP-LAMP will copy the lamp ID.   |
+| - - - -  |  LAMP connected to wifi and works |
+| . . . . .|  Error |
+
+
+
+
 ## Web interface
 
 <img src="imgs/ap.png" alt="AP" width="400">
