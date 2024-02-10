@@ -20,10 +20,6 @@ For the control of the LAMP project the ESP32 module is used. The development wa
 
 The first version of the board is made. Gerber is in the hw directory. 
 
-Note!!:  R9 and R10 can be omitted from the circuit. Pull up resistors are then set as internal pull up. If external resistor R10 is used on GPIO2, it is necessary to ground it during upload. Press the push button or insert the shorting jumper on the push button.
-
-
-
 [Interactive BOM](https://fotoventus.cz/lamp/ibom.html)
 
 
@@ -97,19 +93,21 @@ LAMP get ID & values
 
 ## Programming and configuration
 
+Note!!:  Resistor R10 is used on GPIO2, it is necessary to ground it during upload. Press the push button or insert the shorting jumper on the push button.
+
 1. Connect ESP-LAM PCB via 3V3 USB-serial converter to J4 connector
 2. Connect power via USB-C connector or via J1
 3. Run VisualCode and upload the project
 4. In VC Platformio run Build Sytem File Image
 5. Press and hold the BTN-XBOOT button and press the RST button, then release RST and BTN-XBOOT 
-6. In VC Platformio run Upload Sytem File Image
-7. Press and hold the BTN-XBOOT button and press the RST button, then release RST and BTN-XBOOT
-8. In VC Platformio, start the Upload Program to ESP
-9. Press the RST button, then the LED should start flashing 
-10. On your computer, search for the AP named LAMP AP and connect
-11. In your web browser enter the address http://192.168.4.1
-12. Configure the wifi network and select submit
-13. After reboot, ESP-LAMP will connect to your wifi network and you can connect from the browser to the IP address received from DHCP or specified in the configuration and control the lamp.  
+7. In VC Platformio run Upload Sytem File Image
+8. Press and hold the BTN-XBOOT button and press the RST button, then release RST and BTN-XBOOT
+9. In VC Platformio, start the Upload Program to ESP
+10. Press the RST button, then the LED should start flashing 
+11. On your computer, search for the AP named LAMP AP and connect
+12. In your web browser enter the address http://192.168.4.1
+13. Configure the wifi network and select submit
+14. After reboot, ESP-LAMP will connect to your wifi network and you can connect from the browser to the IP address received from DHCP or specified in the configuration and control the lamp.  
 
 ## LED STATE
 
