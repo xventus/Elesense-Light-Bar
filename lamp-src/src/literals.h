@@ -22,6 +22,7 @@ public:
     static constexpr const char *tsk_web{"WEBTSK"};
     static constexpr const char *tsk_wifi{"WIFITSK"};
     static constexpr const char *tsk_lcs{"LCSTSK"};
+    static constexpr const char *btn_lcs{"BTNTSK"};
 
     // AP definition
     static constexpr const char *ap_name{"LAMP AP"};

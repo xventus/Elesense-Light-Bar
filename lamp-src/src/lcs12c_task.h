@@ -18,6 +18,7 @@ public:
 	    on,     
         off, 	
         hueintensity,
+		toggle
 		};
 
 	LC12STask();

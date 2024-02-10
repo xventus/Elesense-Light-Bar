@@ -21,7 +21,8 @@ Application *Application::getInstance()
     return &instance;
 }
 
-Application::Application() : _heartBeat(HEART_BEAT_LED)
+Application::Application() :    _heartBeat(HEART_BEAT_LED), 
+                                _btnTask(A_BUTTON, B_BUTTON, FLASH_BUTTON)
 {
 }
 
@@ -82,13 +83,8 @@ void Application::init()
     uart_param_config(LCS_UART, &uart_config);
     uart_set_pin(LCS_UART, LSC_TX_PIN, LSC_RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
 
-    checkRenewAP();
+   // checkRenewAP();
 
-    // remove - ESPWROVERKIT
-    /*gpio_set_direction(GPIO_NUM_0, GPIO_MODE_OUTPUT);
-      gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
-      gpio_set_direction(GPIO_NUM_4, GPIO_MODE_OUTPUT);
-    */
 }
 
 void Application::run()
@@ -108,7 +104,8 @@ void Application::run()
         if (!_lcs12cTask.init(literals::tsk_lcs, tskIDLE_PRIORITY + 1ul, 4086))
            break;
 
-       
+        if (!_btnTask.init(literals::btn_lcs, tskIDLE_PRIORITY + 1ul, 4086)) 
+           break;
 
     } while (false);
     

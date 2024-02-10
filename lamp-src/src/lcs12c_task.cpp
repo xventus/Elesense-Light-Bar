@@ -35,10 +35,11 @@ void LC12STask::loop(){
 	
 	lamp::PacketParser prs; ///< lamp packet sniffer
 	uint8_t data[100];		///< serial buffer for LCS
-	int length = 0; 	   /// TODO
-	int readcnt = 0; 	  ///< bytes from UART
-	bool learn = false;   ///< lamp ID must be learned
-	lamp::Packet mylamp;  ///< all LCS operation over this lamp
+	int length = 0; 	   	/// TODO
+	int readcnt = 0; 	  	///< bytes from UART
+	bool learn = false;   	///< lamp ID must be learned
+	lamp::Packet mylamp;  	///< all LCS operation over this lamp
+	bool lampIsOn = false;  ///< for toggle switch
 	
 	// minimal content
 	mylamp.prepare();
@@ -92,6 +93,9 @@ void LC12STask::loop(){
 						// values from remote controller for my lamp & update web pages & local copy udate
 						if (mylamp.getIdentification() == packet.getIdentification())
 						{   
+							if (packet.getCommnad() == lamp::Packet::Command::On) lampIsOn = true;
+							if (packet.getCommnad() == lamp::Packet::Command::Off) lampIsOn = false;
+
 						    // update web interface
 						    Application::getInstance()->getWebTask()->lcsUpdate(lcs);
 							// sync hue & intensity
@@ -112,10 +116,18 @@ void LC12STask::loop(){
 		auto res = xQueueReceive(_queue, (void *)&req, 0);
 		if (res == pdTRUE) { 
 			Command cmd = static_cast<Command>(req.command);
-			if (cmd == LC12STask::Command::off) {
+
+ 			if (cmd == LC12STask::Command::toggle) {
+				lampIsOn = !lampIsOn;
+				if (lampIsOn) mylamp.setCommand(lamp::Packet::Command::On);
+				else mylamp.setCommand(lamp::Packet::Command::Off);
+			}
+			else if (cmd == LC12STask::Command::off) {
 				mylamp.setCommand(lamp::Packet::Command::Off);
+				lampIsOn = false;
 			} else if (cmd == LC12STask::Command::on) {
 				mylamp.setCommand(lamp::Packet::Command::On);
+				lampIsOn = true;
 			} else if (cmd == LC12STask::Command::learn) {
 				learn = true;
 				kv.writeString(literals::kv_lampid, "");
@@ -123,16 +135,17 @@ void LC12STask::loop(){
 			} else if (cmd == LC12STask::Command::hueintensity) {
 				if (req.hue != 255) {
 					mylamp.setYellow2White(req.hue);
+					lampIsOn = true;
 				}
 
 				if (req.intensity != 255) {
 					 mylamp.setIntensity(req.intensity);
 				}
-
-				
+			
 				if (mylamp.getCommnad() !=  lamp::Packet::Command::On) {
 					// switch on if in OFF mode or automatic
 					mylamp.setCommand(lamp::Packet::Command::On);
+					lampIsOn = true;
 				}
 			} 
 		
@@ -141,8 +154,6 @@ void LC12STask::loop(){
 				mylamp.computeChecksum();				
 				uart_write_bytes(UART_NUM_1, reinterpret_cast<const char*>(mylamp.getContnet().data()), mylamp.getContnet().size());
 			} 
-				
-			
 		
 		}
 

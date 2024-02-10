@@ -76,7 +76,7 @@ void WebTask::loop()
 		if (resap == pdTRUE) 
 		{
            //todo...
-		   printf("_queueLcs  %d \n", lcs.command);
+		   //printf("_queueLcs  %d \n", lcs.command);
 		}
 
 		int receivedMode;

@@ -15,7 +15,7 @@
 #include "web_task.h"
 #include "wifi_task.h"
 #include "lcs12c_task.h"
-//#include "access_point.h"
+#include "button_task.h"
 #include "literals.h"
 
 /**
@@ -58,7 +58,7 @@ public:
     WebTask *getWebTask() { return &_webTask;}
     WifiTask *getWifiTask() { return &_wifiTask;}
     LC12STask *getLcsTask() { return &_lcs12cTask;}
-
+    
     /**
      * Singleton
     */
@@ -80,8 +80,9 @@ private:
 
 
     LedTask     _heartBeat;         ///< led task instance
-    WebTask     _webTask;
-    WifiTask    _wifiTask;
-    LC12STask   _lcs12cTask;
+    WebTask     _webTask;          ///< web interface
+    WifiTask    _wifiTask;         ///< wifi AP / client  
+    LC12STask   _lcs12cTask;       ///< 2.4 GHz link 
+    ButtonTask  _btnTask;          ///< button task X, A, B 
    
 };
