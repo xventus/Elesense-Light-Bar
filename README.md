@@ -84,14 +84,22 @@ LAMP get ID & values
 
 `curl http://192.168.2.222/values`
 
+## HW Buttons
+
+---
+| Button     | Note |
+|------------|------------------------------------------------------------------------|
+| X-BOOT + reset |  Upoad firmware via serial 
+| X-BOOT     |  ON / OFF |
+| A     | Increasing the brightness intensity|
+| B     | Decreasing the brightness intensity|
+| A + B + reset | New initialization, creates a LAM AP and allows you to set up a new WiFi connection | 
 
 ## Web interface
 
 <img src="imgs/ap.png" alt="AP" width="400">
 <img src="imgs/co.png" alt="Control" width="400">
 
-## TODO
 
-It is necessary to complete the control using HW buttons. 
 
 
