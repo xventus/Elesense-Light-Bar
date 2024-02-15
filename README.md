@@ -138,7 +138,7 @@ Note!!:  Resistor R10 is used on GPIO2, it is necessary to ground it during uplo
     </tr>
 </table>
 
-STL files to download for 3D printing of the box. (Thanks to Pavel Vanek)
+STL files to download for 3D printing of the box. Thanks to [Pavel Vanek](https://github.com/Bobik77)
 
 [STL top part](case/ESP_Lamp_Top_V2.stl)
 
