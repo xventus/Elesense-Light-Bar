@@ -127,6 +127,19 @@ Note!!:  Resistor R10 is used on GPIO2, it is necessary to ground it during uplo
 <img src="imgs/ap.png" alt="AP" width="400">
 <img src="imgs/co.png" alt="Control" width="400">
 
+## Case
 
+<table>
+    <tr>
+        <td><img src="case/ESP_Lamp_box.jpg" alt="case" width="300"></td>
+        <td><img src="case/case1.png" alt="case" width="300"></td>
+        <td><img src="case/case2.png" alt="case" width="300"></td>
+        <td><img src="case/case3.png" alt="case" width="300"></td>
+    </tr>
+</table>
 
+STL files to download for 3D printing of the box. Thanks to [Pavel Vanek](https://github.com/Bobik77)
 
+[STL top part](case/ESP_Lamp_Top_V2.stl)
+
+[STL bottom part](case/ESP_Lamp_Bottom_V2.stl)
