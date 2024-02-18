@@ -13,7 +13,8 @@
 #include <ctype.h>
 #include "led_task.h"
 
-
+#include "key_val.h"
+#include "literals.h"
 
 LedTask::LedTask(gpio_num_t pin) : _pin(pin) { 
 	_queue = xQueueCreate( 5 , sizeof(BlinkMode));
@@ -25,12 +26,11 @@ LedTask::~LedTask() {
 }
 
 
-    void LedTask::loop() {
+void LedTask::loop() {
 
-  gpio_set_direction(_pin, GPIO_MODE_OUTPUT);
+    gpio_set_direction(_pin, GPIO_MODE_OUTPUT);
 
     BlinkMode mode = BlinkMode::NONE; 
-
     while (true) {
         BlinkMode req;
         if (xQueueReceive(_queue, &req, 0) == pdTRUE) {

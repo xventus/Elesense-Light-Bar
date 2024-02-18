@@ -166,8 +166,10 @@ public:
     void setCommand(Command cmd)
     {
         _data[8] = static_cast<uint8_t>(cmd);
-        setIntensity(0x10);
-        setYellow2White(0x10);
+        if (cmd != Command::On) {
+            setIntensity(0x10);
+            setYellow2White(0x10);
+        }
     }
 
     Command getCommnad() const 

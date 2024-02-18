@@ -83,7 +83,7 @@ void Application::init()
     uart_param_config(LCS_UART, &uart_config);
     uart_set_pin(LCS_UART, LSC_TX_PIN, LSC_RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
 
-   // checkRenewAP();
+    checkRenewAP();
 
 }
 

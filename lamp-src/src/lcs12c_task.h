@@ -18,7 +18,9 @@ public:
 	    on,     
         off, 	
         hueintensity,
-		toggle
+		toggle,
+		incIntensity,
+		decIntensity,
 		};
 
 	LC12STask();

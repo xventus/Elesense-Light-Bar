@@ -17,7 +17,9 @@ extern "C" {
 }
 
 void app_main() {
+
     Application::getInstance()->init();
     Application::getInstance()->run();
+
     return;   
 }

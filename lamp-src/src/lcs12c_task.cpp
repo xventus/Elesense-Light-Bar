@@ -40,52 +40,71 @@ void LC12STask::loop(){
 	bool learn = false;   	///< lamp ID must be learned
 	lamp::Packet mylamp;  	///< all LCS operation over this lamp
 	bool lampIsOn = false;  ///< for toggle switch
+	uint8_t hue = 0;		///< hue value
+	uint8_t intensity = 0;	///< intensity value
+	std::string strId;		///< LAMP ID
+
+	const uint8_t maxIntensity = 0x17;
+	const uint8_t minIntensity = 0x00;
+	const uint8_t defHue = 0x00;
 	
+	auto updateWeb = [](const std::string& idstr, uint8_t hue, uint8_t intensity, uint8_t command ) {
+		LCSInfo lcs;                        
+		strcpy(lcs.id, idstr.c_str()); // Ensure lcs.id is large enough to hold idstr
+		lcs.hue = hue;
+		lcs.intensity = intensity;
+		lcs.command = command;
+		Application::getInstance()->getWebTask()->lcsUpdate(lcs);
+	};
+
 	// minimal content
 	mylamp.prepare();
 	
 	// check if valid ID exists
 	KeyVal& kv = KeyVal::getInstance();
-	const auto& strId = kv.readString(literals::kv_lampid);
-
+	strId = kv.readString(literals::kv_lampid);
+	
 	if (!strId.empty()) {
+		// update web interface with last known value
 		mylamp.setIdentification(strId);
-		LCSInfo lcs {
-		.hue = 0,
-		.intensity = 0,
-		.command = static_cast<uint8_t>(lamp::Packet::Command::Startup),
-		.id = {'\0'} };
-		strcpy(lcs.id, strId.c_str());
-		Application::getInstance()->getWebTask()->lcsUpdate(lcs);
+		
+		// last known value of hue & intensity
+		hue = static_cast<uint8_t>(kv.readUint32(literals::kv_lamhue, defHue));
+		intensity = static_cast<uint8_t>(kv.readUint32(literals::kv_lampintnesity, minIntensity));
+		mylamp.setIntensity(intensity);
+		mylamp.setYellow2White(hue);
+
+		updateWeb(strId, hue, intensity, static_cast<uint8_t>(lamp::Packet::Command::Startup));
+		
 	} else {
+		// switch to learn mode
 		learn = true;
 		vTaskDelay(500 / portTICK_PERIOD_MS); 
 		Application::getInstance()->getLEDTask()->mode(BlinkMode::LEARN);
 	}
-	
 
+
+	// LCS loop
 	while (true) {
-
+		// read packet from some LCS UART
 		if (uart_get_buffered_data_len(LCS_UART, (size_t*)&length) == ESP_OK) {
-			// TODO !!!
 			readcnt = uart_read_bytes(LCS_UART, data, length, 20 / portTICK_PERIOD_MS);			
 			for (int i = 0; i < readcnt; ++i) {
 				if (prs.parseByte(data[i])) {
 					const auto& packet = prs.getPacket();
 					if (packet.validateChecksum() && !packet.canIgnoreMagic()) {
-						LCSInfo lcs;	
+						
 						const auto& viewID =  packet.getIdentification();
-						auto const &idstr = lamp::Packet::arrayToString(viewID);
-						strcpy(lcs.id, idstr.c_str());
-						lcs.hue = packet.getYellow2White();
-						lcs.intensity = packet.getIntensity();
-						lcs.command = static_cast<int>(packet.getCommnad());
+						strId = lamp::Packet::arrayToString(viewID);
+
+						// update local copy from remote
+						hue = packet.getYellow2White();
+						intensity = packet.getIntensity();
 						
 						// learn mode stores my lamp ID into KV
 						if (learn) {
 							mylamp.setIdentification(viewID);
-							KeyVal& kv = KeyVal::getInstance();
-							kv.writeString(literals::kv_lampid, idstr);
+							kv.writeString(literals::kv_lampid, strId);
 							learn = false;
 							Application::getInstance()->getLEDTask()->mode(BlinkMode::CLIENT);
 						}
@@ -96,8 +115,8 @@ void LC12STask::loop(){
 							if (packet.getCommnad() == lamp::Packet::Command::On) lampIsOn = true;
 							if (packet.getCommnad() == lamp::Packet::Command::Off) lampIsOn = false;
 
-						    // update web interface
-						    Application::getInstance()->getWebTask()->lcsUpdate(lcs);
+						    updateWeb(strId, hue, intensity,static_cast<int>(packet.getCommnad()));
+
 							// sync hue & intensity
 							mylamp.setIntensity(packet.getIntensity());
 							mylamp.setYellow2White(packet.getYellow2White());
@@ -111,40 +130,87 @@ void LC12STask::loop(){
 		}
 		
 		
-		// LCS info & command from web interface
+		// LCS info & command from web interface & hw button control 
 		LCSInfo req;
 		auto res = xQueueReceive(_queue, (void *)&req, 0);
 		if (res == pdTRUE) { 
+			
 			Command cmd = static_cast<Command>(req.command);
 
  			if (cmd == LC12STask::Command::toggle) {
+				// hardware button
 				lampIsOn = !lampIsOn;
-				if (lampIsOn) mylamp.setCommand(lamp::Packet::Command::On);
-				else mylamp.setCommand(lamp::Packet::Command::Off);
+				printf("#####1  %d  %d  on=%d\n", intensity, hue, lampIsOn?1:0);
+
+				if (lampIsOn) {
+					mylamp.setIntensity(intensity);
+					mylamp.setYellow2White(hue);
+					mylamp.setCommand(lamp::Packet::Command::On);
+					updateWeb(strId, hue, intensity,static_cast<int>(lamp::Packet::Command::On));
+				} else {
+					mylamp.setCommand(lamp::Packet::Command::Off);
+					
+					// Store last known config
+					kv.writeUint32(literals::kv_lampintnesity, intensity);
+					kv.writeUint32(literals::kv_lamhue, hue);
+				}
+			}
+			if (cmd == LC12STask::Command::incIntensity) {
+				// hardware button
+				if (!lampIsOn) {
+					lampIsOn = true;
+					mylamp.setIntensity(intensity);
+					mylamp.setYellow2White(hue);
+					mylamp.setCommand(lamp::Packet::Command::On);
+				}
+				
+				if (intensity < maxIntensity) intensity++;
+				mylamp.setIntensity(intensity); 
+				updateWeb(strId, hue, intensity,static_cast<int>(lamp::Packet::Command::On));
+			}
+			if (cmd == LC12STask::Command::decIntensity) {
+				// hardware button
+				if (!lampIsOn) {
+					lampIsOn = true;
+					mylamp.setIntensity(intensity);
+					mylamp.setYellow2White(hue);
+					mylamp.setCommand(lamp::Packet::Command::On);
+				}
+
+				if (intensity > minIntensity) intensity--;
+				mylamp.setIntensity(intensity);
+				updateWeb(strId, hue, intensity,static_cast<int>(lamp::Packet::Command::On));
 			}
 			else if (cmd == LC12STask::Command::off) {
 				mylamp.setCommand(lamp::Packet::Command::Off);
 				lampIsOn = false;
 			} else if (cmd == LC12STask::Command::on) {
 				mylamp.setCommand(lamp::Packet::Command::On);
+				mylamp.setIntensity(intensity);
+				mylamp.setYellow2White(hue);
 				lampIsOn = true;
 			} else if (cmd == LC12STask::Command::learn) {
 				learn = true;
 				kv.writeString(literals::kv_lampid, "");
 				Application::getInstance()->getLEDTask()->mode(BlinkMode::LEARN);
 			} else if (cmd == LC12STask::Command::hueintensity) {
+				
 				if (req.hue != 255) {
 					mylamp.setYellow2White(req.hue);
+					hue = req.hue;
 					lampIsOn = true;
 				}
 
 				if (req.intensity != 255) {
 					 mylamp.setIntensity(req.intensity);
+					 intensity = req.intensity;
 				}
 			
 				if (mylamp.getCommnad() !=  lamp::Packet::Command::On) {
-					// switch on if in OFF mode or automatic
+					// switch ON if in OFF mode or automatic
 					mylamp.setCommand(lamp::Packet::Command::On);
+					mylamp.setIntensity(intensity);
+					mylamp.setYellow2White(hue);
 					lampIsOn = true;
 				}
 			} 

@@ -25,7 +25,7 @@ WebTask::WebTask()
 {
 	_queue = xQueueCreate(2, sizeof(int));
 	_queueAP = xQueueCreate(2, sizeof(APInfo));
-	_queueLcs = xQueueCreate(1, sizeof(LCSInfo));
+	_queueLcs = xQueueCreate(2, sizeof(LCSInfo));
 }
 
 WebTask::~WebTask()
@@ -72,13 +72,8 @@ void WebTask::loop()
 		}
 		
 		// form LCS update
-		resap = xQueueReceive(_queueLcs, (void *)&lcs, 0);
-		if (resap == pdTRUE) 
-		{
-           //todo...
-		   //printf("_queueLcs  %d \n", lcs.command);
-		}
-
+		xQueueReceive(_queueLcs, (void *)&lcs, 0);
+		
 		int receivedMode;
 		auto res = xQueueReceive(_queue, (void *)&receivedMode, 0);
 		if (res == pdTRUE)

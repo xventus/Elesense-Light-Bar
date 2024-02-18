@@ -61,9 +61,14 @@ public:
     /// @param value content
     /// @return true - success
     bool writeUint32(const std::string &key, uint32_t value)
-    {
+    { 
         std::lock_guard<std::mutex> lock(_mutex);
-        return (nvs_set_u32(this->_nvsHandle, key.c_str(), value) == ESP_OK);
+        esp_err_t err = nvs_set_u32(this->_nvsHandle, key.c_str(), value);
+        if (err != ESP_OK) {
+            return false;
+        }
+        err = nvs_commit(this->_nvsHandle); 
+        return err == ESP_OK;
     }
 
     /// @brief Write string
@@ -72,14 +77,18 @@ public:
     /// @return true - success
     bool writeString(const std::string &key, const std::string &value)
     {
-        std::lock_guard<std::mutex> lock(_mutex);
-        return (nvs_set_str(this->_nvsHandle, key.c_str(), value.c_str()) == ESP_OK);
+        return writeString(key.c_str(), value.c_str());
     }
 
     bool writeString(const char* key, const char* value)
     {
         std::lock_guard<std::mutex> lock(_mutex);
-        return (nvs_set_str(this->_nvsHandle, key, value) == ESP_OK);
+        esp_err_t err = nvs_set_str(this->_nvsHandle, key, value);
+        if (err != ESP_OK) {
+            return false;
+        }
+        err = nvs_commit(this->_nvsHandle); 
+        return err == ESP_OK;
     }
 
     /// @brief Read uint32_t from NVS

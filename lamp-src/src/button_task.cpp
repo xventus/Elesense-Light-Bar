@@ -25,7 +25,6 @@ ButtonTask::~ButtonTask()
 
 void ButtonTask::loop()
 {
-    uint8_t intensity = 0;  // TODO from configuration & receiver
     while (true)
     {
 
@@ -34,13 +33,13 @@ void ButtonTask::loop()
 		   Application::getInstance()->getLcsTask()->command(LC12STask::Command::toggle);
         } else {
             if (_ba.isPressed()) {
-            if (intensity < 0x17) intensity++;
-            Application::getInstance()->getLcsTask()->intensity(intensity);
+                Application::getInstance()->getLcsTask()->command(LC12STask::Command::incIntensity);
+                vTaskDelay(200 / portTICK_PERIOD_MS);
             }
             
             if (_bb.isPressed()) {
-            if (intensity > 0x00) intensity--;
-            Application::getInstance()->getLcsTask()->intensity(intensity);
+                Application::getInstance()->getLcsTask()->command(LC12STask::Command::decIntensity);
+                vTaskDelay(200 / portTICK_PERIOD_MS);
             }
         }
 
